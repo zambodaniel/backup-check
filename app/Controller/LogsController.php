@@ -13,9 +13,15 @@ class LogsController extends AppController {
 	public $scaffold;
 
 	public function add(){
+		$this->request->allowMethod('get');
+		$apiKey = Configure::read('ApiKey');
 		$hostname = $this->request->query('hostname');
 		$status = $this->request->query('status');
 		$description = $this->request->query('description');
+		$query_key = $this->request->query('key');
+		if ($query_key !== $apiKey) {
+			throw new InternalErrorException('Invalid key');
+		}
 		if (empty($hostname)) {
 			throw new NotFoundException('Host not found');
 		}
@@ -38,7 +44,10 @@ class LogsController extends AppController {
 		);
 		$this->Log->create();
 		$res = $this->Log->save($data);
+		if (!$res) {
+			throw new InternalErrorException('Error saving log entry');
+		}
 		$this->autoRender = false;
-		echo '';
+		echo 'OK';
 	}
 }

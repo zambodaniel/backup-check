@@ -36,7 +36,7 @@ class Host extends AppModel {
 		'Log' => array(
 			'className' => 'Log',
 			'foreignKey' => 'host_id',
-			'dependent' => false,
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
