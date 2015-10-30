@@ -12,6 +12,11 @@ class LogsController extends AppController {
  */
 	public $scaffold;
 
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('add');
+	}
+
 	public function add(){
 		$this->request->allowMethod('get');
 		$apiKey = Configure::read('ApiKey');
